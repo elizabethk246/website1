@@ -1,0 +1,25 @@
+       name: Deploy to GitHub Pages
+       on:
+         push:
+           branches: [main]
+       permissions:
+         contents: write
+       jobs:
+         deploy:
+           runs-on: ubuntu-latest
+           steps:
+             - uses: actions/checkout@v4
+             - name: Setup .NET
+               uses: actions/setup-dotnet@v4
+               with:
+                 dotnet-version: '9.x'
+             - name: Publish
+               run: dotnet publish -c Release -o publish
+             - name: Fix base path & add 404
+               run: |
+                 cp publish/wwwroot/index.html publish/wwwroot/404.html
+             - name: Deploy
+               uses: peaceiris/actions-gh-pages@v4
+               with:
+                 github_token: ${{ secrets.GITHUB_TOKEN }}
+                 publish_dir: publish/wwwroot

@@ -2,6 +2,47 @@ html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+.site-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 2rem;
+}
+
+.logo {
+    height: 80px;
+    width: auto;
+}
+
+.site-title {
+    margin: 0;
+    font-size: 2rem;
+}
+
+.about-text {
+    max-width: 720px;
+    padding: 1.5rem 2rem;
+    line-height: 1.7;
+}
+
+.about-text p {
+    margin-bottom: 1rem;
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem 2rem 2rem;
+}
+
+.gallery img {
+    max-width: 320px;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
 h1:focus {
     outline: none;
 }

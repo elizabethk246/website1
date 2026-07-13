@@ -1,7 +1,93 @@
 @page "/contact"
+@using System.ComponentModel.DataAnnotations
+@inject HttpClient Http
 
 <PageTitle>Contact</PageTitle>
 
 <h1>Contact</h1>
 
-<p>Get in touch with us.</p>
+<p>
+    Please email me at <a href="mailto:elizabethmkennedy8@gmail.com">elizabethmkennedy8@gmail.com</a>
+    or use the following form to have an email sent to me automatically.
+    Alternatively, I am contactable via direct message on Instagram
+    <a href="https://www.instagram.com/paintedbylizzie" target="_blank" rel="noopener noreferrer">@@paintedbylizzie</a>.
+</p>
+
+<EditForm Model="@model" OnValidSubmit="HandleSubmit">
+    <DataAnnotationsValidator />
+
+    <div class="mb-3">
+        <label for="contact-email">Your email address</label>
+        <InputText id="contact-email" class="form-control" @bind-Value="model.Email" />
+        <ValidationMessage For="@(() => model.Email)" />
+    </div>
+
+    <div class="mb-3">
+        <label for="contact-message">Your message</label>
+        <InputTextArea id="contact-message" class="form-control" rows="6" @bind-Value="model.Message" />
+        <ValidationMessage For="@(() => model.Message)" />
+    </div>
+
+    <button type="submit" class="btn btn-primary" disabled="@isSending">
+        @(isSending ? "Sending..." : "Send")
+    </button>
+</EditForm>
+
+@if (statusMessage is not null)
+{
+    <p class="mt-3">@statusMessage</p>
+}
+
+@code {
+    private const string Web3FormsAccessKey = "e1ac5f78-42d5-449c-b0de-64c03c4291b9";
+
+    private readonly ContactModel model = new();
+    private bool isSending;
+    private string? statusMessage;
+
+    private async Task HandleSubmit()
+    {
+        isSending = true;
+        statusMessage = null;
+
+        try
+        {
+            var response = await Http.PostAsJsonAsync("https://api.web3forms.com/submit", new
+            {
+                access_key = Web3FormsAccessKey,
+                email = model.Email,
+                message = model.Message,
+                subject = "New message from paintedbylizzie.com contact form",
+                from_name = "paintedbylizzie contact form"
+            });
+
+            statusMessage = response.IsSuccessStatusCode
+                ? "Thanks! Your message has been sent."
+                : "Sorry, something went wrong sending your message. Please email me directly instead.";
+
+            if (response.IsSuccessStatusCode)
+            {
+                model.Email = string.Empty;
+                model.Message = string.Empty;
+            }
+        }
+        catch
+        {
+            statusMessage = "Sorry, something went wrong sending your message. Please email me directly instead.";
+        }
+        finally
+        {
+            isSending = false;
+        }
+    }
+
+    private class ContactModel
+    {
+        [Required(ErrorMessage = "Please enter your email address.")]
+        [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
+        public string Email { get; set; } = string.Empty;
+
+        [Required(ErrorMessage = "Please enter a message.")]
+        public string Message { get; set; } = string.Empty;
+    }
+}

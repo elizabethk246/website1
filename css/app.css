@@ -20,9 +20,10 @@ html, body {
 }
 
 .about-text {
-    max-width: 720px;
+    width: 100%;
     padding: 1.5rem 2rem;
     line-height: 1.7;
+    text-align: center;
 }
 
 .about-text p {
@@ -43,18 +44,50 @@ html, body {
     object-fit: cover;
 }
 
+.portfolio-heading {
+    color: #738B68;
+    padding: 1rem 2rem 0;
+}
+
+.portfolio-intro {
+    color: #000;
+    max-width: 720px;
+    padding: 0.5rem 2rem 1.5rem;
+    line-height: 1.7;
+}
+
+.print-item {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 2rem;
+    padding: 0 2rem 2rem;
+}
+
+.print-image {
+    flex: 0 1 500px;
+    min-width: 0;
+    height: auto;
+}
+
+.print-title {
+    flex: 1 1 200px;
+    margin: 0;
+    font-size: 1.5rem;
+}
+
 h1:focus {
     outline: none;
 }
 
 a, .btn-link {
-    color: #0071c1;
+    color: #738B68;
 }
 
 .btn-primary {
     color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+    background-color: #738B68;
+    border-color: #738B68;
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {

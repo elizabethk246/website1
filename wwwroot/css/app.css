@@ -45,6 +45,30 @@ html, body {
     width: 100%;
     aspect-ratio: 1 / 1;
     object-fit: cover;
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery img:hover {
+    transform: scale(1.9);
+    z-index: 1001;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+}
+
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0);
+    pointer-events: none;
+    z-index: 1000;
+    transition: background-color 0.3s ease;
+}
+
+body:has(.gallery img:hover)::after {
+    background-color: rgba(0, 0, 0, 0.65);
 }
 
 .portfolio-heading {

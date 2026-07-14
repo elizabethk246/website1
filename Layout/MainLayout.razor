@@ -1,4 +1,8 @@
-﻿@inherits LayoutComponentBase
+@inherits LayoutComponentBase
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JS
+@implements IDisposable
+
 <div class="page">
     <div class="sidebar">
         <NavMenu />
@@ -11,3 +15,30 @@
         </article>
     </main>
 </div>
+
+@code {
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            TrackPageView(NavigationManager.Uri);
+            NavigationManager.LocationChanged += OnLocationChanged;
+        }
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        TrackPageView(e.Location);
+    }
+
+    private void TrackPageView(string url)
+    {
+        var uri = new Uri(url);
+        JS.InvokeVoidAsync("gtagPageView", uri.PathAndQuery, url);
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+}

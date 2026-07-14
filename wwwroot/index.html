@@ -15,6 +15,17 @@
     <link rel="icon" type="image/png" href="favicon.png" />
     <link href="MainProject.styles.css" rel="stylesheet" />
     <script type="importmap"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-X00QGYHLRH"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-X00QGYHLRH', { send_page_view: false });
+        window.gtagPageView = function (path, url) {
+            gtag('event', 'page_view', { page_path: path, page_location: url });
+        };
+    </script>
 </head>
 
 <body>
